@@ -16,21 +16,35 @@ class GeocodeAPI:
 
     def getGeocode(self,address):
 
-        jsonData = json.loads(urllib.urlopen(self.GClient_BaseURL+ self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ','+') + "&key=" + self.API_KEY).read())
-        lat=jsonData['results'][0]['geometry']['location']['lat']
-        lng=jsonData['results'][0]['geometry']['location']['lng']
-        return lat,lng
+        try:
+            jsonData = json.loads(urllib.urlopen(self.GClient_BaseURL+ self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ','+') + "&key=" + self.API_KEY).read())
+            lat=jsonData['results'][0]['geometry']['location']['lat']
+            lng=jsonData['results'][0]['geometry']['location']['lng']
+            return lat,lng
+
+        except Exception as e:
+            return "SOMETHING WRONG HAPPENED : "+str(e)
 
     def getPlaceId(self,address):
-        jsonData = json.loads(urllib.urlopen(self.GClient_BaseURL+ self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read())
-        return jsonData['results'][0]['place_id']
+
+        try:
+            jsonData = json.loads(urllib.urlopen(self.GClient_BaseURL+ self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read())
+            return jsonData['results'][0]['place_id']
+
+        except Exception as e:
+            return "SOMETHING WRONG HAPPENED : "+str(e)
 
     def sendResponse(self,address,isXML=False):
-        if isXML is True:
+
+        try:
+            if isXML is True:
+                return urllib.urlopen(
+                    self.GClient_BaseURL + self.GClient_PlaceInfoURL+ self.GClient_xmlFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read()
             return urllib.urlopen(
-                self.GClient_BaseURL + self.GClient_PlaceInfoURL+ self.GClient_xmlFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read()
-        return urllib.urlopen(
-                self.GClient_BaseURL + self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read()
+                    self.GClient_BaseURL + self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read()
+
+        except Exception as e:
+            return "SOMETHING WRONG HAPPENED : "+str(e)
 
 if __name__=='__main__':
     geocodeAPI=GeocodeAPI("__YOUR API KEY HERE__")
