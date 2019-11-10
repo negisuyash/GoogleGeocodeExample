@@ -33,7 +33,7 @@ class GeocodeAPI:
                 self.GClient_BaseURL + self.GClient_PlaceInfoURL+ self.GClient_jsonFormatInfo+ self.GClient_AddressParameter + address.replace(' ', '+') + "&key=" + self.API_KEY).read()
 
 if __name__=='__main__':
-    geocodeAPI=GeocodeAPI("AIzaSyCNIxgpyuhKEKrSQPf2FbodHcqyjH6gi4s")
+    geocodeAPI=GeocodeAPI("__YOUR API KEY HERE__")
     print(geocodeAPI.getGeocode("Tilak Nagar, New Delhi"))
     print(geocodeAPI.getPlaceId("Tilak Nagar, New Delhi"))
     # print(geocodeAPI.sendResponse("Tilak Nagar, New Delhi",True))
